@@ -59,15 +59,13 @@ model products {
 
 
    transaction_item transaction_items[] 
-   category categories[]
-   categories_products categories_products[]
+   categories categories_products[]
 }
 
 model categories {
    id        Int      @id @default(autoincrement())
    category  String?  @db.VarChar(255)
-   product  products[]
-   categories_products categories_products[]
+   products categories_products[]
 }
 
 model categories_products {
