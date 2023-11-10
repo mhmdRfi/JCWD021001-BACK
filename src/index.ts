@@ -12,6 +12,15 @@ dotenv.config({
 const app = express();
 const port = process.env.PORT || 8000;
 
+app.use(bodyParser.json());
+app.use(
+    cors({
+      origin: process.env.WHITELISTED_DOMAIN
+        ? process.env.WHITELISTED_DOMAIN.split(" ")
+        : undefined,
+    })
+  );
+
 app.listen(port, () => {
     console.log((`server started on port ${port}`));
     
