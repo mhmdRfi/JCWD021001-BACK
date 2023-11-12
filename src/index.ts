@@ -21,6 +21,10 @@ app.use(
     })
   );
 
+  import authRouter from "../src/routes/authRouter"
+
+  app.use("/auth", authRouter)
+
 app.listen(port, () => {
     console.log((`server started on port ${port}`));
     
