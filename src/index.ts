@@ -20,8 +20,11 @@ app.use(
 );
 
 import transactionRouter from "./routes/transactionRouter"
+import cashierProductRouter from "./routes/cashierProductRouter"
+
 
 app.use("/transaction", transactionRouter);
+app.use("/product", cashierProductRouter);
 
 app.listen(port, () => {
 	console.log(`server started on port ${port}`);
