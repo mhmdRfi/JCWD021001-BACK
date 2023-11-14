@@ -1,8 +1,8 @@
 import express  from "express";
 const router = express.Router()
 
-import { addProductToCartController } from "../controllers/transactionController"
+import { createTransactionController } from "../controllers/transactionController"
 
-router.get("/addtocart/:id", addProductToCartController)
+router.post("/", createTransactionController)
 
 export default router; 

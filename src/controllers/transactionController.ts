@@ -1,18 +1,31 @@
 import { Request, Response } from "express";
-import { addProductToCartService } from "../services/transactionService";
+import { createTransactionsService } from "../services/transactionService";
 
-const addProductToCartController = async (req: Request , res: Response) => {
-  try {
-    const { id } = req.params;
+const createTransactionController = async (
+	req: Request,
+	res: Response
+) => {
+	try {
+		const { total_quantity, total_price, cashier_id, cart } = req.body;
+		const result = await createTransactionsService(
+      total_quantity,
+			total_price,
+			cashier_id,
+      cart,
+		);
+    // console.log(result);
+    
 
-    const result = await addProductToCartService( Number(id) );
-    res.status(200).json({
-      message: "Add Product to Cart Success",
-      data: result,
-    })
-  } catch (err : any) {
-    res.status(500).send(err.message)
-  }
-}
+		res.status(200).json({
+			message: "Transaction Success",
+			data: result,
+		});
+	} catch (err: any) {
+    console.log(err);
+    
+		res.status(500).send(err.message);
+	}
+};
 
-export { addProductToCartController }
+
+export { createTransactionController };
