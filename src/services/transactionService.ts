@@ -1,14 +1,33 @@
-import { addProductToCartQuery } from "../queries/transactionQuery";
+import {
+	createtransactionsQuery,
+	updateProductquantityQuery,
+	createTransactionItemsQuery,
+} from "../queries/transactionQuery";
 
-const addProductToCartService = async ( id: number ) => {
-  try {
-    const res = await addProductToCartQuery( id );
-    return res;
+const createTransactionsService = async (
+	total_quantity: number,
+	total_price: number,
+	cashier_id: number,
+	cart: any
+) => {
+	try {
+		const res = await createtransactionsQuery(
+			total_quantity,
+			total_price,
+			cashier_id
+		);
+		for (let i = 0; i < cart.length; i++) {
+			await createTransactionItemsQuery(
+				cart[i].total,
+				cart[i].id,
+				res.id
+			);
+			// await updateProductquantityQuery(cart[i].id, cart[i].quantity);
+		}
+		return res;
+	} catch (err) {
+		throw err;
+	}
+};
 
-  } catch (err) {
-    throw err
-  }
-}
-
-
-export { addProductToCartService }
+export { createTransactionsService };
