@@ -40,7 +40,7 @@ const createTransactionItemsQuery = async (
 	}
 };
 
-const updateProductquantityQuery = async (
+const updateProductQuantityQuery = async (
 	id: number,
 	quantity: number
 ) => {
@@ -51,8 +51,6 @@ const updateProductquantityQuery = async (
 			},
 			where: { id: id },
 		});
-		console.log(id);
-		console.log(quantity);
 		return result;
 	} catch (err) {
 		throw err;
@@ -62,5 +60,5 @@ const updateProductquantityQuery = async (
 export {
 	createTransactionItemsQuery,
 	createtransactionsQuery,
-	updateProductquantityQuery,
+	updateProductQuantityQuery,
 };

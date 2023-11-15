@@ -6,8 +6,8 @@ const getCashierProductController = async (
 	res: Response
 ) => {
 	try {
-		const result = await getCashierProductService();
-    // console.log(result);
+		const { page } = req.body;
+		const result = await getCashierProductService(page);
     
 		res.status(200).json({
 			message: "Transaction Success",

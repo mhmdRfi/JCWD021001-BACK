@@ -1,8 +1,8 @@
 import { getCashierProductQuery } from "../queries/cashierProductQuery";
 
-const getCashierProductService = async () => {
+const getCashierProductService = async (page : number) => {
 	try {
-		const res = await getCashierProductQuery();
+		const res = await getCashierProductQuery(page || 1);
 		return res;
 	} catch (err) {
 		throw err;

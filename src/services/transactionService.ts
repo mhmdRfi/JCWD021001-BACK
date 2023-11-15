@@ -1,6 +1,6 @@
 import {
 	createtransactionsQuery,
-	updateProductquantityQuery,
+	updateProductQuantityQuery,
 	createTransactionItemsQuery,
 } from "../queries/transactionQuery";
 
@@ -22,7 +22,7 @@ const createTransactionsService = async (
 				cart[i].id,
 				res.id
 			);
-			// await updateProductquantityQuery(cart[i].id, cart[i].quantity);
+			await updateProductQuantityQuery(cart[i].id, cart[i].quantity);
 		}
 		return res;
 	} catch (err) {
