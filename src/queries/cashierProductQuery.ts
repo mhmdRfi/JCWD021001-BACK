@@ -2,9 +2,15 @@ import { Prisma, PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-const getCashierProductQuery = async () => {
+const getCashierProductQuery = async (page : number) => {
 	try {
-		const result = await prisma.products.findMany();
+		const pageSize = 3
+		const skip = ( page - 1 ) * pageSize;
+		const take = pageSize
+		const result = await prisma.products.findMany({
+			skip,
+			take
+		});
 		return result;
 	} catch (err) {
 		throw err;
