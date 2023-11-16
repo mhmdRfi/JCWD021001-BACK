@@ -26,6 +26,8 @@ import cashierProductRouter from "./routes/cashierProductRouter"
 app.use("/transaction", transactionRouter);
 app.use("/product", cashierProductRouter);
 
+app.use("/uploads", express.static(path.join(__dirname, "./public/images")));
+
 app.listen(port, () => {
 	console.log(`server started on port ${port}`);
 });
