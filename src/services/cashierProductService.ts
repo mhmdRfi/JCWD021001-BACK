@@ -6,13 +6,17 @@ import {
 const getCashierProductService = async (
 	page: number,
 	categoryId: number,
-	productName: string
+	productName: string,
+	sortOrder: string,
+	sortName: string
 ) => {
 	try {
 		const res = await getCashierProductQuery(
 			page,
 			categoryId,
-			productName
+			productName,
+			sortOrder,
+			sortName
 		);
 		return res;
 	} catch (err) {

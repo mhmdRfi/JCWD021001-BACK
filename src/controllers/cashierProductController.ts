@@ -10,11 +10,13 @@ const getCashierProductController = async (
 ) => {
 	try {
 		const { page } = req.params;
-		const { categoryId, productName } = req.query;
+		const { categoryId, productName, sortOrder, sortName } = req.query;
 		const result = await getCashierProductService(
 			Number(page),
 			Number(categoryId),
 			String(productName),
+			String(sortOrder),
+			String(sortName)
 		);
 
 		res.status(200).json({

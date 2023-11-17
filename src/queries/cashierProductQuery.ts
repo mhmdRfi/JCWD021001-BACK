@@ -5,7 +5,9 @@ const prisma = new PrismaClient();
 const getCashierProductQuery = async (
 	page: number,
 	categoryId: number,
-	productName: string
+	productName: string,
+	sortOrder: string,
+	sortName: string
 ) => {
 	try {
 		const pageSize = 9;
@@ -27,10 +29,16 @@ const getCashierProductQuery = async (
 				}
 			};
 		}
+
+
+
 		const result = await prisma.products.findMany({
 			include: { categories: true },
 			skip,
 			take,
+			orderBy: {
+				[sortName]: sortOrder as any,
+			},
 			where: params,
 		});
 
@@ -45,6 +53,7 @@ const getCashierProductQuery = async (
 		throw err;
 	}
 };
+
 const getCashierProductPromoQuery = async () => {
 	try {
 		const result = await prisma.products.findMany();
