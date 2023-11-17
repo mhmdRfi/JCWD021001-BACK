@@ -19,4 +19,38 @@ const findUserQuery = async ({ email = null, username = null } : { email?: strin
     }
 };
 
-export {findUserQuery};
+const findCashierQuery = async () => {
+  try{ 
+    const cashier = await prisma.users.findMany({
+      where: {
+        status: "active"
+      }}
+    );
+
+    return cashier;
+  } catch (err){
+    throw err;
+  }
+};
+
+const updateCashierQuery = async (id: number, email: string, username: string, status: string, type: string) => {
+  try{
+      await prisma.users.update({
+          where:{ id: id },
+          data: {email, username, status, type}
+      });
+  } catch (err){
+      throw err;
+  }
+};
+const deleteCashierQuery = async (id: number) => {
+  try{
+      await prisma.users.delete({
+          where:{ id: id },
+      });
+  } catch (err){
+      throw err;
+  }
+};
+
+export {findUserQuery, findCashierQuery, updateCashierQuery, deleteCashierQuery};
