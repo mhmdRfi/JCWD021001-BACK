@@ -28,6 +28,8 @@ app.use(
 
   app.use("/uploads", express.static(path.join(__dirname, "./public/images")));
 
+app.use("/uploads", express.static(path.join(__dirname, "./public/images")));
+
 app.listen(port, () => {
 	console.log(`server started on port ${port}`);
 });

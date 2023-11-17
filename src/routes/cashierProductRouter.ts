@@ -1,8 +1,10 @@
 import express  from "express";
 const router = express.Router()
 
-import { getCashierProductController } from "../controllers/cashierProductController"
+import { getCashierProductController, getCashierProductPromoController } from "../controllers/cashierProductController"
 
-router.get("/", getCashierProductController)
+router.get("/promo", getCashierProductPromoController)
+router.get("/allProduct", getCashierProductPromoController)
+router.get("/:page", getCashierProductController)
 
 export default router; 
