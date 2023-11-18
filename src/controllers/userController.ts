@@ -1,18 +1,23 @@
-import {Request, Response} from "express";
-import {  findCashierService, updateCashierService, deleteCashierService, findInactiveCashierService } from "../services/userServices";
-
+import { Request, Response } from "express";
+import {
+	findCashierService,
+	updateCashierService,
+	deleteCashierService,
+	uploadAvatarService,
+    findInactiveCashierService
+} from "../services/userServices";
 
 const findCashierController = async (req: Request, res: Response) => {
-    try{
-        const result = await findCashierService();
-        return res.status(200).json({
-            message: "Success",
-            data: result,
-          });
-    } catch (err: any){
-        return res.status(500).send(err.message)
-    }
-}
+	try {
+		const result = await findCashierService();
+		return res.status(200).json({
+			message: "Success",
+			data: result,
+		});
+	} catch (err: any) {
+		return res.status(500).send(err.message);
+	}
+};
 
 const findInactiveCashierController = async (req: Request, res: Response) => {
     try{
@@ -51,5 +56,29 @@ const deleteCashierController = async (req: Request, res: Response) => {
     }
 }
 
+const uploadAvatarController = async (
+	req: Request,
+	res: Response
+) => {
+	try {
+		const { id } = req.params;
+		const result = await uploadAvatarService(
+			Number(id),
+			String(req.file?.filename)
+		);
+		return res.status(200).json({
+			data: result,
+			message: "Upload image success",
+		});
+	} catch (err: any) {
+		return res.status(500).send(err.message);
+	}
+};
 
-export {findCashierController, updateCashierController, deleteCashierController, findInactiveCashierController}
+export {
+	findCashierController,
+	updateCashierController,
+	deleteCashierController,
+	uploadAvatarController,
+    findInactiveCashierController
+};

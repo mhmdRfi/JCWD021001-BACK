@@ -46,10 +46,10 @@ const keepLoginQuery = async (id:number) => {
                 id: true,
                 username: true,
                 email: true,
+                avatar: true,
                 roleId: true,
             },
         });
-        
         return res
     } catch(err){
         throw err;
