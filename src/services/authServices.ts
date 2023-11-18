@@ -9,13 +9,49 @@ import transporter from "../utils/transporter";
 
 const registerService = async (username: string, email: string, password: string, type: string) => {
     try{
+
         const check = await findUserQuery({email, username}) 
 
         if (check) throw new Error("Email or username has already existed")
+
+        const secretKey: Secret | undefined = process.env.JWT_SECRET_KEY;
+        if (!secretKey) {
+            throw new Error("JWT_SECRET_KEY is not set in the environment");
+        }
+
+        const resetToken = jwt.sign({email}, secretKey);
+        const resetTokenExpiry = new Date(Date.now() + 3600000);
+
+        // await forgotPasswordQuery (email, resetToken, resetTokenExpiry)
+
+        const temp = await fs.readFileSync(
+            path.join(__dirname, "../template", "reset-password.html"),
+            "utf-8"
+        );
+
+        const resetPasswordLink = `${process.env.FE_BASE_URL}/auth/reset-password?resetToken=${resetToken}`
+        const tempCompile = await handlebars.compile(temp);
+        const tempResult = tempCompile({ email: email, link: resetPasswordLink });
+        const gmailUser = process.env.GMAIL_USER;
+        if (typeof gmailUser !== 'string') {
+            throw new Error("GMAIL_USER is not set in the environment");
+        }
+
+        if (typeof email !== 'string') {
+            throw new Error("Recipient email is invalid");
+        }
+
+        await transporter.sendMail({
+            from: gmailUser,
+            to: email,
+            subject: "Email Confirmation",
+            html: tempResult,
+          });
+          
         const salt = await bcrypt.genSalt(10);
 
         const hashPassword = await bcrypt.hash(password, salt)
-        const res = await registerQuery (username, email, hashPassword, type)
+        const res = await registerQuery (username, email, hashPassword, type, resetToken, resetTokenExpiry)
     
         return res;
     } catch (err){
@@ -23,12 +59,14 @@ const registerService = async (username: string, email: string, password: string
     }
 };
 
-const loginService = async (email: string, password: string) => {
+const loginService = async (email: string, password: string,) => {
     try{
         const check = await findUserQuery({email});
         if (!check) throw new Error ("email doesn't exist")
 
         if(!check.password) throw new Error("Password is not set for this user")
+
+        if (check.status == "inactive") throw new Error("Cashier is inactive")
 
         const isValid = await bcrypt.compare(password, check.password);
         if (!isValid) throw new Error("Password is incorrect");
@@ -37,7 +75,8 @@ const loginService = async (email: string, password: string) => {
             id: check.id,
             email: check.email,
             username: check.username,
-            roleId: check.roleId
+            roleId: check.roleId,
+            status: check.status,
         }
 
         const secretKey: Secret | undefined = process.env.JWT_SECRET_KEY;

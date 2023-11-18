@@ -1,10 +1,22 @@
 import {Request, Response} from "express";
-import {  findCashierService, updateCashierService, deleteCashierService } from "../services/userServices";
+import {  findCashierService, updateCashierService, deleteCashierService, findInactiveCashierService } from "../services/userServices";
 
 
 const findCashierController = async (req: Request, res: Response) => {
     try{
         const result = await findCashierService();
+        return res.status(200).json({
+            message: "Success",
+            data: result,
+          });
+    } catch (err: any){
+        return res.status(500).send(err.message)
+    }
+}
+
+const findInactiveCashierController = async (req: Request, res: Response) => {
+    try{
+        const result = await findInactiveCashierService();
         return res.status(200).json({
             message: "Success",
             data: result,
@@ -40,4 +52,4 @@ const deleteCashierController = async (req: Request, res: Response) => {
 }
 
 
-export {findCashierController, updateCashierController, deleteCashierController}
+export {findCashierController, updateCashierController, deleteCashierController, findInactiveCashierController}

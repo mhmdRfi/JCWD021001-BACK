@@ -2,7 +2,7 @@ import {Prisma, PrismaClient} from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-const registerQuery = async (username: string, email: string, password: string, type: string) => {
+const registerQuery = async (username: string, email: string, password: string, type: string, resetToken: string, resetTokenExpiry: Date) => {
     try{
         const result = await prisma.users.create({
         data: { 
@@ -10,6 +10,8 @@ const registerQuery = async (username: string, email: string, password: string, 
             email,
             password,
             type,
+            resetToken,
+            resetTokenExpiry,
             roleId: 2,
             status: "active"
            },

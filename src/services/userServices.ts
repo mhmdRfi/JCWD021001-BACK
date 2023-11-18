@@ -1,8 +1,17 @@
-import { findCashierQuery, updateCashierQuery, deleteCashierQuery } from "../queries/userQuery";
+import { findCashierQuery, updateCashierQuery, deleteCashierQuery, findInactiveCashierQuery } from "../queries/userQuery";
 
 const findCashierService = async () => {
     try{
         const cashier = await findCashierQuery();
+        return cashier;
+    } catch (err){
+        throw err;
+    }
+};
+
+const findInactiveCashierService = async () => {
+    try{
+        const cashier = await findInactiveCashierQuery();
         return cashier;
     } catch (err){
         throw err;
@@ -29,4 +38,4 @@ const deleteCashierService = async (id: number) => {
 
 
 
-export {findCashierService, updateCashierService, deleteCashierService}
+export {findCashierService, updateCashierService, deleteCashierService, findInactiveCashierService}
