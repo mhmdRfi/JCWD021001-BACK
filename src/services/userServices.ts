@@ -1,8 +1,17 @@
-import { findCashierQuery, updateCashierQuery, deleteCashierQuery, uploadAvatarQuery } from "../queries/userQuery";
+import { findCashierQuery, updateCashierQuery, deleteCashierQuery, findInactiveCashierQuery, uploadAvatarQuery } from "../queries/userQuery";
 
 const findCashierService = async () => {
     try{
         const cashier = await findCashierQuery();
+        return cashier;
+    } catch (err){
+        throw err;
+    }
+};
+
+const findInactiveCashierService = async () => {
+    try{
+        const cashier = await findInactiveCashierQuery();
         return cashier;
     } catch (err){
         throw err;
@@ -35,4 +44,4 @@ const uploadAvatarService = async (id: number, avatar: string) => {
 
 
 
-export {findCashierService, updateCashierService, deleteCashierService, uploadAvatarService}
+export {findCashierService, updateCashierService, deleteCashierService, uploadAvatarService, findInactiveCashierService}

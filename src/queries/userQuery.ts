@@ -23,7 +23,23 @@ const findCashierQuery = async () => {
   try{ 
     const cashier = await prisma.users.findMany({
       where: {
-        status: "active"
+        status: "active",
+        roleId: 2
+      }}
+    );
+
+    return cashier;
+  } catch (err){
+    throw err;
+  }
+};
+
+const findInactiveCashierQuery = async () => {
+  try{ 
+    const cashier = await prisma.users.findMany({
+      where: {
+        status: "inactive",
+        roleId: 2
       }}
     );
 
@@ -64,4 +80,4 @@ const uploadAvatarQuery = async (id : number, avatar:string) => {
   }
 }
 
-export {findUserQuery, findCashierQuery, updateCashierQuery, deleteCashierQuery, uploadAvatarQuery};
+export {findUserQuery, findCashierQuery, updateCashierQuery, deleteCashierQuery, uploadAvatarQuery, findInactiveCashierQuery};
