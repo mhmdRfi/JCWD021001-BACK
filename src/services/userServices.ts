@@ -1,4 +1,4 @@
-import { findCashierQuery, updateCashierQuery, deleteCashierQuery } from "../queries/userQuery";
+import { findCashierQuery, updateCashierQuery, deleteCashierQuery, uploadAvatarQuery } from "../queries/userQuery";
 
 const findCashierService = async () => {
     try{
@@ -25,8 +25,14 @@ const deleteCashierService = async (id: number) => {
     }
 }
 
+const uploadAvatarService = async (id: number, avatar: string) => {
+    try {
+        await uploadAvatarQuery(Number(id), String(avatar))
+    } catch (err) {
+        throw err
+    }
+}
 
 
 
-
-export {findCashierService, updateCashierService, deleteCashierService}
+export {findCashierService, updateCashierService, deleteCashierService, uploadAvatarService}
