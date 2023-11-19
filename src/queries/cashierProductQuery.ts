@@ -4,13 +4,14 @@ const prisma = new PrismaClient();
 
 const getCashierProductQuery = async (
 	page: number,
+	size: number,
 	categoryId: number,
 	productName: string,
 	sortOrder: string,
 	sortName: string
 ) => {
 	try {
-		const pageSize = 9;
+		const pageSize = size;
 		const skip = (page - 1) * pageSize;
 		const take = pageSize;
 

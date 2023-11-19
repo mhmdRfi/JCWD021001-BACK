@@ -9,10 +9,11 @@ const getCashierProductController = async (
 	res: Response
 ) => {
 	try {
-		const { page } = req.params;
+		const { page, size } = req.params;
 		const { categoryId, productName, sortOrder, sortName } = req.query;
 		const result = await getCashierProductService(
 			Number(page),
+			Number(size),
 			Number(categoryId),
 			String(productName),
 			String(sortOrder),

@@ -5,6 +5,7 @@ import {
 
 const getCashierProductService = async (
 	page: number,
+	size: number,
 	categoryId: number,
 	productName: string,
 	sortOrder: string,
@@ -13,6 +14,7 @@ const getCashierProductService = async (
 	try {
 		const res = await getCashierProductQuery(
 			page,
+			size,
 			categoryId,
 			productName,
 			sortOrder,

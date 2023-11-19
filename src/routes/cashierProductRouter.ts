@@ -5,6 +5,6 @@ import { getCashierProductController, getCashierProductPromoController } from ".
 
 router.get("/promo", getCashierProductPromoController)
 router.get("/allProduct", getCashierProductPromoController)
-router.get("/:page", getCashierProductController)
+router.get("/:page/:size", getCashierProductController)
 
 export default router; 
