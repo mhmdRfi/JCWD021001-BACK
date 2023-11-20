@@ -4,9 +4,15 @@ CREATE TABLE `users` (
     `username` VARCHAR(255) NULL,
     `email` VARCHAR(255) NULL,
     `password` VARCHAR(255) NULL,
+    `status` VARCHAR(255) NULL,
     `avatar` VARCHAR(255) NULL,
     `roleId` INTEGER NOT NULL,
+    `resetToken` VARCHAR(191) NULL,
+    `resetTokenExpiry` DATETIME(3) NULL,
+    `type` VARCHAR(255) NULL,
 
+    UNIQUE INDEX `users_email_key`(`email`),
+    UNIQUE INDEX `users_resetToken_key`(`resetToken`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -47,9 +53,11 @@ CREATE TABLE `products` (
     `image` VARCHAR(255) NULL,
     `description` TEXT NULL,
     `status` VARCHAR(255) NULL,
-    `quantity` INTEGER NOT NULL,
+    `quantity` INTEGER NULL,
     `created_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updated_at` DATETIME(3) NOT NULL,
+    `markup` INTEGER NULL,
+    `sku` VARCHAR(255) NULL,
 
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -70,15 +78,6 @@ CREATE TABLE `categories_products` (
     PRIMARY KEY (`category_id`, `product_id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
--- CreateTable
-CREATE TABLE `_categoriesToproducts` (
-    `A` INTEGER NOT NULL,
-    `B` INTEGER NOT NULL,
-
-    UNIQUE INDEX `_categoriesToproducts_AB_unique`(`A`, `B`),
-    INDEX `_categoriesToproducts_B_index`(`B`)
-) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-
 -- AddForeignKey
 ALTER TABLE `users` ADD CONSTRAINT `users_roleId_fkey` FOREIGN KEY (`roleId`) REFERENCES `roles`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
@@ -96,9 +95,3 @@ ALTER TABLE `categories_products` ADD CONSTRAINT `categories_products_category_i
 
 -- AddForeignKey
 ALTER TABLE `categories_products` ADD CONSTRAINT `categories_products_product_id_fkey` FOREIGN KEY (`product_id`) REFERENCES `products`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE `_categoriesToproducts` ADD CONSTRAINT `_categoriesToproducts_A_fkey` FOREIGN KEY (`A`) REFERENCES `categories`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE `_categoriesToproducts` ADD CONSTRAINT `_categoriesToproducts_B_fkey` FOREIGN KEY (`B`) REFERENCES `products`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
