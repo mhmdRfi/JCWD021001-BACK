@@ -80,5 +80,16 @@ const setPasswordQuery = async (email: string, password: string) => {
     }
 }
 
+const updatePasswordQuery = async (id : number, password:string) => {
+    try {
+      await prisma.users.update({
+        where:{ id: id},
+        data: {password}
+      })
+    } catch (err) {
+      throw err;
+    }
+  }
 
-export {registerQuery, loginQuery, keepLoginQuery, forgotPasswordQuery, setPasswordQuery}
+
+export {registerQuery, loginQuery, keepLoginQuery, forgotPasswordQuery, setPasswordQuery, updatePasswordQuery}

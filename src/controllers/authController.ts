@@ -1,5 +1,5 @@
 import {Request, Response} from "express";
-import { loginService, registerService, keepLoginService, forgotPasswordService, setPasswordService } from "../services/authServices";
+import { loginService, registerService, keepLoginService, forgotPasswordService, setPasswordService, updatePasswordService } from "../services/authServices";
 
 const registerController = async (req: Request, res: Response) => {
     try{
@@ -74,7 +74,27 @@ const setPasswordController = async (req: Request, res: Response) => {
     } catch (err: any){
         return res.status(500).send(err.message)
     }
-}
+};
+
+const updatePasswordController = async (
+	req: Request,
+	res: Response
+) => {
+	try {
+		const { id } = req.params;
+        const {password} = req.body
+		const result = await updatePasswordService(
+			Number(id),
+			String(password)
+		);
+		return res.status(200).json({
+			data: result,
+			message: "password updated successfully",
+		});
+	} catch (err: any) {
+		return res.status(500).send(err.message);
+	}
+};
 
 
-export {registerController, loginController, keepLoginController, forgotPasswordController, setPasswordController}
+export {registerController, loginController, keepLoginController, forgotPasswordController, setPasswordController, updatePasswordController}
