@@ -22,7 +22,7 @@ model users {
    resetToken        String?     @unique
    resetTokenExpiry  DateTime?
    type              String?     @db.VarChar(255)
-   test              String?     @db.VarChar(255)
+   
    
    transaction transactions[]
 }

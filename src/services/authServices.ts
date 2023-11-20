@@ -1,6 +1,6 @@
 import bcrypt from "bcrypt"
 import jwt, {Secret} from "jsonwebtoken";
-import { registerQuery, loginQuery, keepLoginQuery, forgotPasswordQuery, setPasswordQuery } from "../queries/authQuery"
+import { registerQuery, loginQuery, keepLoginQuery, forgotPasswordQuery, setPasswordQuery, updatePasswordQuery } from "../queries/authQuery"
 import { findUserQuery } from "../queries/userQuery";
 import handlebars from "handlebars";
 import fs from "fs"
@@ -178,6 +178,15 @@ const setPasswordService = async (resetToken: string, password: string) => {
     }
 }
 
+const updatePasswordService = async (id: number, password: string) => {
+    try {
+        const salt = await bcrypt.genSalt(10);
+        const hashPassword = await bcrypt.hash(password, salt);
+        await updatePasswordQuery(Number(id), hashPassword);
+    } catch (err) {
+        throw err
+    }
+}
 
 
-export {registerService, loginService, keepLoginService, forgotPasswordService, setPasswordService}
+export {registerService, loginService, keepLoginService, forgotPasswordService, setPasswordService, updatePasswordService}
