@@ -11,19 +11,18 @@ datasource db {
 }
 
 model users {
-   id                Int         @id @default(autoincrement())
-   username          String?     @db.VarChar(255)
-   email             String?     @unique  @db.VarChar(255)
-   password          String?     @db.VarChar(255)
-   status            String?     @db.VarChar(255)
-   avatar            String?     @db.VarChar(255)
-   role              roles       @relation(fields: [roleId], references: [id])
-   roleId            Int
-   resetToken        String?     @unique
-   resetTokenExpiry  DateTime?
-   type              String?     @db.VarChar(255)
-   
-   
+   id               Int       @id @default(autoincrement())
+   username         String?   @db.VarChar(255)
+   email            String?   @unique @db.VarChar(255)
+   password         String?   @db.VarChar(255)
+   status           String?   @db.VarChar(255)
+   avatar           String?   @db.VarChar(255)
+   role             roles     @relation(fields: [roleId], references: [id])
+   roleId           Int
+   resetToken       String?   @unique
+   resetTokenExpiry DateTime?
+   type             String?   @db.VarChar(255)
+
    transaction transactions[]
 }
 
@@ -34,18 +33,20 @@ model roles {
 }
 
 model transactions {
-   id               Int                 @id @default(autoincrement())
-   total_quantity   Int
-   total_price      Int
-   date             DateTime            @default(now())
-   cashier          users               @relation(fields: [cashier_id], references: [id])
-   cashier_id       Int
+   id             Int      @id @default(autoincrement())
+   total_quantity Int
+   total_price    Int
+   date           DateTime @default(now())
+   cashier        users    @relation(fields: [cashier_id], references: [id])
+   cashier_id     Int
+
    transaction_item transaction_items[]
 }
 
 model transaction_items {
-   id             Int          @id @default(autoincrement())
+   id             Int @id @default(autoincrement())
    total_quantity Int
+
    product        products     @relation(fields: [product_id], references: [id])
    product_id     Int
    transaction    transactions @relation(fields: [transaction_id], references: [id])
@@ -59,17 +60,20 @@ model products {
    image       String?  @db.VarChar(255)
    description String?  @db.Text
    status      String?  @db.VarChar(255)
-   quantity    Int
+   quantity    Int?
    created_at  DateTime @default(now())
    updated_at  DateTime
+   markup      Int?
+   sku         String?  @db.VarChar(255)
 
    transaction_item transaction_items[]
    categories       categories_products[]
 }
 
 model categories {
-   id       Int                   @id @default(autoincrement())
-   category String?               @db.VarChar(255)
+   id       Int     @id @default(autoincrement())
+   category String? @db.VarChar(255)
+
    products categories_products[]
 }
 
